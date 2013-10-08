@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>GM Dashboard App</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="GMLIB/com.gm.widgets.css" type="text/css"/>
+        <script type="text/javascript" src="GMLIB/com.gm.widgets.js"></script>
+        <script type="text/javascript" src="GMLIB/comm.js"></script>
+        <script type="text/javascript" src="GMLIB/info.js"></script>
+        <script type="text/javascript" src="GMLIB/io.js"></script>
+        <script type="text/javascript" src="GMLIB/media.js"></script>
+        <script type="text/javascript" src="GMLIB/nav.js"></script>
+        <script type="text/javascript" src="GMLIB/phone.js"></script>
+        <script type="text/javascript" src="GMLIB/system.js"></script>
+        <script type="text/javascript" src="GMLIB/ui.js"></script>
+        <script type="text/javascript" src="GMLIB/util.js"></script>
+        <script type="text/javascript" src="GMLIB/voice.js"></script>
+        <script type="text/javascript" src="lib/ngi.gm.common.js"></script>
+        <script type="text/javascript" src="lib/jquery-1.7.1.js"></script>
+        <script type="text/javascript" src="lib/jquery.jscrollpane.min.js"></script>
+        <script type="text/javascript" src="lib/mustache.js"></script>
+        <script type="text/javascript" src="basic.js"></script>
+        <script type="text/javascript" src="js/asrtts.js"></script>
+         <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/codesamples.js"></script>
+        <script type="text/javascript" src="js/GetBinaryFile.js"></script>
+        <script type="text/javascript" src="js/KyWdsProc.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/sprintf.js"></script>
+        <script type="text/javascript" src="js/vechileData.js"></script>
+        <link rel="stylesheet" href="basic.css" type="text/css"/>
+    </head>
+    <body onload="gm.system.init();javascript:init();" id="body">
+    <div id="bgup"> <!-- Top Bar -->
+    	<img src="materials/bg_up.png" />
+    	<!--<img src="materials/bg_up.png" />-->
+		<div id="temp" class="topbar">
+			<p>12 ℃</p>
+		</div>
+		<div id="logo">
+			<img src="materials/onstar_logo.png" />
+		</div>
+		<div id="time" class="topbar">
+			<p>12:08</p>
+		</div>
+    </div>
+    <div id="bgdown">
+    	<img src="materials/bg_down.png" />
+    	<div id="b_arrow"> <!-- Back Arrow -->
+    		<img src="materials/back_btn.png" style="cursor:pointer;" onclick="backOne();"/>
+    	</div>
+    	
+    	<div id="mic_listen" style="position:absolute;left:1px;top:186px;display:none;">
+    		<img src="materials/voice_outer.png"/>
+    	</div>
+    	
+    	<div id="mic_btn" onClick="reveal('mic_listen');initSpeech();"> <!-- Microphone Button -->
+    		<img src="materials/voice_btn.png" />
+    	</div>
+    	
+    	<!-- Main Menu -->
+    	<div id="homepage" class="mainscreen" style="display:block;">
+    	
+    	<div id="helptext"> <!-- Help Text -->
+    		<div>
+    			<p style="font-size:22px;"><b>您可以说:</b></p>
+    		</div>
+    		<div id="helplist">
+    			<p>电话</p>
+    			<p>导航</p>
+    			<p>诊断与保养</p>
+    		</div>
+    	</div>
+    	
+    	<div id="call" class="gridbtn"> <!-- Hands-free Call -->
+    		<img src="materials/phone.png" />
+    	</div>
+    	<div id="vdivider1"> <!-- V-divider 1 -->
+    		<img src="materials/vertical_line.png" />
+    	</div>
+    	<div id="nav" class="gridbtn"> <!-- Navigation -->
+    		<img src="materials/navgation.png" />
+    	</div>
+    	<div id="vdivider2"> <!-- V-divider 2 -->
+    		<img src="materials/vertical_line.png" />
+    	</div>
+    	<div id="care" class="gridbtn"> <!-- Premium Car Care -->
+    		<img src="materials/permium_car.png" />
+    	</div>
+    	<div id="sms" class="gridbtn"> <!-- SMS -->
+    		<img src="materials/SMS.png" />
+    	</div>
+    	<div id="vdivider3"> <!-- V-divider 3 -->
+    		<img src="materials/vertical_line.png" />
+    	</div>
+    	<div id="email" class="gridbtn"> <!-- E-mail -->
+    		<img src="materials/email.png" />
+    	</div>
+    	<div id="vdivider4"> <!-- V-divider 4 -->
+    		<img src="materials/vertical_line.png" />
+    	</div>
+    	<div id="ebook" class="gridbtn"> <!-- E-book -->
+    		<img src="materials/e_book.png" />
+    	</div>
+    	<div id="hdivider1"> <!-- H-divider 1 -->
+    		<img src="materials/index_line.png" />
+    	</div>
+    	<div id="hdivider2"> <!-- H-divider 2 -->
+    		<img src="materials/index_line.png" />
+    	</div>
+    	<div id="hdivider3"> <!-- H-divider 3 -->
+    		<img src="materials/index_line.png" />
+    	</div>
+    	<!-- Grid Text -->
+    	<div style="position:absolute; left:70px; top:110px"> <!-- Hands-Free Call -->
+    		<p style="font-size:22px;"">免提通话</p>
+    	</div>
+    	<div style="position:absolute; left:253px; top:110px"> <!-- Navigation -->
+    		<p style="font-size:22px;"">路线导航</p>
+    	</div>
+    	<div style="position:absolute; left:435px; top:110px"> <!-- Premium Car Care -->
+    		<p style="font-size:22px;"">诊断与保养</p>
+    	</div>
+    	<div style="position:absolute; left:85px; top:270px"> <!-- SMS -->
+    		<p style="font-size:22px;"">短信</p>
+    	</div>
+    	<div style="position:absolute; left:273px; top:270px"> <!-- Email -->
+    		<p style="font-size:22px;"">邮件</p>
+    	</div>
+    	<div style="position:absolute; left:455px; top:270px"> <!-- Ebook -->
+    		<p style="font-size:22px;"">电子书</p>
+    	</div>
+    	
+    	<!-- Buttons -->
+    	<div id="carebtn" class="btn" onclick="enterVehicleStatus();"></div>
+    	<div id="carebtnalt" class="btn" style="display:none;" onclick="enterVehicleStatus();">
+    		<img src="materials/waring.png" style="position:absolute;top:40px;right:45px;"/>
+    	</div>
+    	
+    </div>
+    <!-- End of Main Menu -->
+    
+    <!-- Vehicle Status Screen -->
+    <div id="vehiclestatus" class="mainscreen" style="display:none;">
+    	<div id="helptext"> <!-- Help Text -->
+    		<div>
+    			<p style="font-size:22px;"><b>您可以说:</b></p>
+    		</div>
+    		<div id="helplist">
+    			<p>联系经销商</p>
+    			<p>呼叫安吉星</p>
+    			<p>返回</p>
+    		</div>
+    	</div>
+    	<div id="top_bg"><img src="materials/vehicle_status_bg.png"/>
+    	<div id="topicons">
+			<img src="materials/oil.png"> 
+			<label style="position:absolute; margin-left:13px; margin-top:20px;">
+				<font style="font-size:18px; margin-right:22px;">油耗: 本月</font> 
+				<font style="font-size:24px"><b>8.9</b></font>   
+				<font style="font-size:18px"> L/100km</font>
+			</label><br>
+			<img src="materials/engine_oil_green.png" >  
+			<label style="position:absolute; margin-left:11px; margin-top:20px;">
+				<font style="font-size:18px; margin-right:14px;">机油寿命: 剩余</font>
+				<font style="font-size:24px"><b>61.9</b></font>   
+				<font style="font-size:18px">%</font>
+			</label>
+		</div>
+		<div> <!-- Tire Pressure Diagram -->
+			<div style="position:absolute;bottom:12px;left:130px;"> <!-- Car Image -->
+				<img src="materials/car.png"/>
+			</div>
+			<div style="position:absolute;bottom:40px;left:63px;width:215px;height:64px;"> <!-- Label Lines -->
+				<img src="materials/left_front.png" style="position:absolute;top:0px;left:0px;"/>
+				<img src="materials/left_after.png" style="position:absolute;bottom:0px;left:0px;"/>
+				<img src="materials/right_front.png" style="position:absolute;top:0px;right:0px;"/>
+				<img src="materials/right_after.png" style="position:absolute;bottom:0px;right:0px;"/>
+			</div>
+			<div style="position:absolute;bottom:12px;left:40px;width:265px;height:118px;font-size:18;color:#58a7ff;"> <!-- Values -->
+				<div id="tire_left_front" style="position:absolute;top:15px;left:0;"></div>
+				<div id="tire_left_rear" style="position:absolute;bottom:15px;left:0;"></div>
+				<div id="tire_right_front" style="position:absolute;top:15px;right:0;"></div>
+				<div id="tire_right_rear" style="position:absolute;bottom:15px;right:0;"></div>
+			</div>
+		</div> <!-- End Tire Pressure Diagram -->
+		<div id="advert1" class="advert" style="display:block;"> <!-- Advertisement 1 -->
+			<img src="materials/adv.png" />
+			<div style="position:absolute;top:10px;left:40px;">
+			<p style="font-size:18px;line-height:10px;"><b>Yongda Cadillac</b></p>
+			<p><i><b>April 1st-30th</b></i></p>
+			</div>
+			<div id="advertscroll">
+				<img src="materials/point_select.png" />
+				<img src="materials/point.png" style="cursor:pointer" onClick="hide('advert1'); reveal('advert2');"/>
+			</div>
+		</div>
+		<div id="advert2" class="advert" style="display:none;"> <!-- Advertisement 2 -->
+			<img src="materials/adv_bg.png" style="position:absolute;top:0;left:0;"/>
+			<img src="materials/adv_title.png" style="position:absolute;top:0;left:0;"/>
+			<div id="advertscroll">
+				<img src="materials/point.png" style="cursor:pointer;" onClick="hide('advert2'); reveal('advert1');"" />
+				<img src="materials/point_select.png"/>
+			</div>
+		</div>
+		</div>
+		
+		<!-- Call Buttons -->
+    	<div style="position:absolute;left:100px;top:240px;cursor:pointer;" onClick="hide('vehiclestatus'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:100px;top:240px;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    	<div id="botline">
+    		<img src="materials/item_center.png"/>
+    	</div>
+    	<!-- Bottom Selection Clouds -->
+    	<div id="botselect">
+    	<div class="botoption"> <!-- Cloud 1 Not selected -->
+    		<img src="materials/no_select_opt.png"/ style="margin-right:10px;margin-left:10px;">
+    	</div>
+    	<div class="botoption"> <!-- Cloud 2 Selected-->
+    		<img src="materials/select_opt.png"/ style="margin-right:10px;">
+    	</div>
+    	<div class="botoption"> <!-- Cloud 3 Not selected-->
+    		<img src="materials/no_select_opt.png"/>
+    	</div>
+    	</div>
+    	<div id="botselect" style="top:345px;line-height:3px;"> <!-- Bottom Selection Text -->
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('vehiclestatus'); reveal('systemcheck');addToHistory('systemcheck');"><p>状态信息</p></div>
+    		<div class="botselecttext" style="opacity:1;"><p><b>车况信息</b></p></div>
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('vehiclestatus'); reveal('maintenance'); addToHistory('maintenance');"><p>保养建议</p></div>
+    	</div>
+    </div> <!-- End of Vehicle Status Screen -->
+    
+    <div id="maintenance" class="mainscreen" style="display:'none';"> <!-- Maintenance Tab -->
+    	
+    	<div id="helptext"> <!-- Help Text -->
+    		<div>
+    			<p style="font-size:22px;"><b>您可以说:</b></p>
+    		</div>
+    		<div id="helplist">
+    			<p>联系经销商</p>
+    			<p>呼叫安吉星</p>
+    			<p>返回</p>
+    		</div>
+    	</div>
+    	<div id="maintenancewindow">
+    		<div class="maintenanceblock">
+    			<img src="materials/main.png"/>
+    			<p class="maintenancetitle">1. 更换机油</p>
+    			<p class="maintenancehelp">请在收到更换机油提醒后1000公里内更换机油</p>
+    		</div>
+    		<div class="maintenanceblock">
+    			<img src="materials/main.png"/>
+    			<p class="maintenancetitle">2. 检查发动机机油油位</p>
+    			<p class="maintenancehelp">每3000公里或每1个月检查一次</p>
+    		</div>
+    		<div class="maintenanceblock">
+    			<img src="materials/main.png"/>
+    			<p class="maintenancetitle">3. 机油滤清器</p>
+    			<p class="maintenancehelp">每5000公里或每6个月更换</p>
+    		</div>
+    		<div class="maintenanceblock">
+    			<img src="materials/main.png"/>
+    			<p class="maintenancetitle">4. 燃油滤清器</p>
+    			<p class="maintenancehelp">每1万公里或6个月检查一次，每2万公里或12个月更换一次</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:100px;top:240px;cursor:pointer;" onClick="hide('maintenance'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:100px;top:240px;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    	<div id="botline">
+    		<img src="materials/item_right.png"/>
+    	</div>
+    	<!-- Bottom Selection Clouds -->
+    	<div id="botselect">
+    	<div class="botoption"> <!-- Cloud 1 Not selected -->
+    		<img src="materials/no_select_opt.png" style="margin-right:15px;margin-left:10px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 2 Selected-->
+    		<img src="materials/no_select_opt.png" style="margin-right:15px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 3 Not selected-->
+    		<img src="materials/select_opt.png"/>
+    	</div>
+    	</div>
+    	<div id="botselect" style="top:345px;line-height:3px;"> <!-- Bottom Selection Text -->
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('maintenance'); reveal('systemcheck'); addToHistory('systemcheck');"><p>状态信息</p></div>
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('maintenance'); reveal('vehiclestatus'); addToHistory('vehiclestatus');"><p>车况信息</p></div>
+    		<div class="botselecttext" style="opacity:1;"><p><b>保养建议</b></p></div>
+    	</div>
+    </div> <!-- End Maintenance Tab -->
+    
+    <div id="systemcheck" class="mainscreen" style="display:'none';"> <!-- Systems Check Tab -->
+    	<div id="helptext"> <!-- Help Text -->
+    		<div>
+    			<p style="font-size:22px;"><b>您可以说:</b></p>
+    		</div>
+    		<div id="helplist">
+    			<p>发动机</p>
+    			<p>联系经销商</p>
+    			<p>返回</p>
+    		</div>
+    	</div>
+    	<div id="systemwindow"> <!-- Main Window -->
+    	<!--          -->
+    	<!-- ITEM ONE -->
+    	<!--          -->
+    	
+    		<div id="title1" class="systemtitle" onClick="hidePrev('gdes1');hide('title1');palyAudio('audio/detail_engine_may_29.mp3');startTTS('此系统的功能主要为把能量转化为车轮前进的动力并同时传给车轮');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/normal.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统正常</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		<div id="gdes1" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('gdes1'); reveal('title1');">
+    				<img src="materials/normal.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统正常</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<p class="probdescription">此系统的功能主要为把能量转化为车轮前进的动力并同时传给车轮</p>
+    		</div>
+    		
+    		<div id="ytitle1" class="systemtitle" style="display:none;" onClick="hidePrev('ydes1');hide('ytitle1');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/alert.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机和变速箱系统</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;"/>
+    		</div>
+    		
+    		<div id="ydes1" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('ydes1'); reveal('ytitle1');">
+    				<img src="materials/alert.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机和变速箱系统</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;"/>
+    			</div>
+    			<div class="probdescription">
+    				<p>发动机控制系统正常</p>
+    				<p>已将诊断结果发送到4S店</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    		<div id="rtitle1" class="systemtitle" style="display:none;" onClick="hide('rtitle1'); reveal('rdes1');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/error.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		
+    		<div id="rdes1" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('rdes1'); reveal('rtitle1');">
+    				<img src="materials/error.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    	<!--          -->
+    	<!-- ITEM TWO -->
+    	<!--          -->
+    	
+    		<div id="title2" class="systemtitle" onClick="hidePrev('gdes2'); hide('title2');palyAudio('audio/detail_emission_may_29.mp3');startTTS('限制车辆的废气系统，包括在排气管内保存燃油和蒸汽和通过提高发动机运转效率限制排气管的废气排放');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/normal.png" class="titleicon"/>
+    			<p class="titletext"><b>2. 排放系统</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		<div id="gdes2" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('gdes2'); reveal('title2');">
+    				<img src="materials/normal.png" class="titleicon"/>
+    				<p class="titletext"><b>2. 排放系统</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<p class="probdescription">限制车辆的废气系统，包括在排气管内保存燃油和蒸汽和通过提高发动机运转效率限制排气管的废气排放</p>
+    		</div>
+    		
+    		<div id="ytitle2" class="systemtitle" style="display:none;" onClick="hide('ytitle2'); reveal('ydes2');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/alert.png" class="titleicon"/>
+    			<p class="titletext"><b>2. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;"/>
+    		</div>
+    		
+    		<div id="ydes2" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('ydes2'); reveal('ytitle2');">
+    				<img src="materials/alert.png" class="titleicon"/>
+    				<p class="titletext"><b>2. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;"/>
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    		<div id="rtitle2" class="systemtitle" style="display:none;" onClick="hide('rtitle2'); reveal('rdes2');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/error.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		
+    		<div id="rdes2" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('rdes2'); reveal('rtitle2');">
+    				<img src="materials/error.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    	
+    	<!--            -->
+    	<!-- ITEM THREE -->
+    	<!--            -->
+    	
+    		<div id="title3" class="systemtitle" onClick="hidePrev('gdes3');hide('title3');palyAudio('audio/detail_airbag_may_29.mp3');startTTS('控制盒打开车辆的安全气囊系统');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/normal.png" class="titleicon"/>
+    			<p class="titletext"><b>3. 气囊系统</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		<div id="gdes3" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('gdes3'); reveal('title3');">
+    				<img src="materials/normal.png" class="titleicon"/>
+    				<p class="titletext"><b>3. 气囊系统</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<p class="probdescription">控制盒打开车辆的安全气囊系统</p>
+    		</div>
+    		
+    		<div id="ytitle3" class="systemtitle" style="display:none;" onClick="hide('ytitle3'); reveal('ydes3');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/alert.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;"/>
+    		</div>
+    		
+    		<div id="ydes3" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('ydes3'); reveal('ytitle3');">
+    				<img src="materials/alert.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;"/>
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    		<div id="rtitle3" class="systemtitle" style="display:none;" onClick="hide('rtitle3'); reveal('rdes3');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/error.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		
+    		<div id="rdes3" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('rdes3'); reveal('rtitle3');">
+    				<img src="materials/error.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    	
+    	<!--           -->
+    	<!-- ITEM FOUR -->
+    	<!--           -->
+    	
+    		<div id="title4" class="systemtitle" onClick="hidePrev('gdes4');hide('title4');palyAudio('audio/detail_stability_may_29.mp3');startTTS('是一个高级的计算机控制系统，它能在复杂的教师情况下帮助司机稳定地控制方向，它主要运用车辆的动能传感器和方向定位系统的输入数据来有选择的应用在车辆刹车系统并必要时减少发动机能量。');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/normal.png" class="titleicon"/>
+    			<p class="titletext"><b>4. 稳定性控制系统</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		<div id="gdes4" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('gdes4'); reveal('title4');">
+    				<img src="materials/normal.png" class="titleicon"/>
+    				<p class="titletext"><b>4. 稳定性控制系统</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<p class="probdescription">
+    				是一个高级的计算机控制系统，它能在复杂的教师情况下帮助司机稳定地控制方向，它主要运用车辆的动能传感器和方向定位系统的输入数据来有选择的应用在车辆刹车系统并必要时减少发动机能量。
+    			</p>
+    		</div>
+    		
+    		<div id="ytitle4" class="systemtitle" style="display:none;" onClick="hide('ytitle4'); reveal('ydes4');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/alert.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;"/>
+    		</div>
+    		
+    		<div id="ydes4" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('ydes4'); reveal('ytitle4');">
+    				<img src="materials/alert.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;"/>
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    		<div id="rtitle4" class="systemtitle" style="display:none;" onClick="hide('rtitle4'); reveal('rdes4');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/error.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		
+    		<div id="rdes4" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('rdes4'); reveal('rtitle4');">
+    				<img src="materials/error.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    	
+    	<!--           -->
+    	<!-- ITEM FIVE -->
+    	<!--           -->
+    	
+    		<div id="title5" class="systemtitle" onClick="hidePrev('gdes5');hide('title5');palyAudio('audio/detail_brake_may_29.mp3');startTTS('监控防抱死刹车系统，从而减少在光滑的路面上所需的制动距离。同时还可以监控牵引控制和稳定系统，帮助车辆在不利的教师情况下依旧保持受控制状态。');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/normal.png" class="titleicon"/>
+    			<p class="titletext"><b>5. 防抱死制动系统</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		<div id="gdes5" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('gdes5'); reveal('title5');">
+    				<img src="materials/normal.png" class="titleicon"/>
+    				<p class="titletext"><b>5. 防抱死制动系统</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<p class="probdescription">监控防抱死刹车系统，从而减少在光滑的路面上所需的制动距离。同时还可以监控牵引控制和稳定系统，帮助车辆在不利的教师情况下依旧保持受控制状态。</p>
+    		</div>
+    		
+    		<div id="ytitle5" class="systemtitle" style="display:none;" onClick="hide('ytitle5'); reveal('ydes5');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/alert.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;"/>
+    		</div>
+    		
+    		<div id="ydes5" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('ydes5'); reveal('ytitle5');">
+    				<img src="materials/alert.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;"/>
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    		<div id="rtitle5" class="systemtitle" style="display:none;" onClick="hide('rtitle5'); reveal('rdes5');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/error.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		
+    		<div id="rdes5" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('rdes5'); reveal('rtitle5');">
+    				<img src="materials/error.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    	
+    	<!--          -->
+    	<!-- ITEM SIX -->
+    	<!--          -->
+    	
+    		<div id="title6" class="systemtitle" onClick="hidePrev('gdes6');hide('title6');palyAudio('audio/detail_onstar_may_29.mp3');startTTS('维护您的车辆的安吉星系统的正常运作');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/normal.png" class="titleicon"/>
+    			<p class="titletext"><b>6. 安吉星系统</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		<div id="gdes6" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('gdes6'); reveal('title6');">
+    				<img src="materials/normal.png" class="titleicon"/>
+    				<p class="titletext"><b>6. 安吉星系统</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<p class="probdescription">维护您的车辆的安吉星系统的正常运作</p>
+    		</div>
+    		
+    		<div id="ytitle1" class="systemtitle" style="display:none;" onClick="hide('ytitle1'); reveal('ydes1');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/alert.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;"/>
+    		</div>
+    		
+    		<div id="ydes1" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('ydes1'); reveal('ytitle1');">
+    				<img src="materials/alert.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;"/>
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    		
+    		<div id="rtitle1" class="systemtitle" style="display:none;" onClick="hide('rtitle1'); reveal('rdes1');">
+    			<img src="materials/item_bg.png" />
+    			<img src="materials/error.png" class="titleicon"/>
+    			<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:20px;right:20px;" />
+    		</div>
+    		
+    		<div id="rdes1" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('rdes1'); reveal('rtitle1');">
+    				<img src="materials/error.png" class="titleicon"/>
+    				<p class="titletext"><b>1. 发动机控制系统故障，动力下降</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:20px;right:20px;" />
+    			</div>
+    			<div class="probdescription">
+    				<p>燃油系统堵塞</p>
+    				<p>喷油嘴堵塞</p>
+    	
+    	<!-- Call Buttons -->
+    	<div style="position:absolute;left:40px;top:90px;cursor:pointer;line-height:0;" onClick="hide('systemcheck'); callButtonPress();">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">联系经销商</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;right:40px;top:90px;line-height:0;">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/kefu.png" style="position:absolute;left:17px;top:20px;"/>
+    		<div style="position:absolute;left:50px;top:13px;">
+    			<p style="font-size:20px;">呼叫安吉星</p>
+    		</div>
+    	</div>
+    	<!-- Call Buttons End -->
+    	
+    			</div>
+    		</div>
+    	
+    		
+    	</div>
+    	
+    	<div id="botline">
+    		<img src="materials/item_left.png"/>
+    	</div>
+    	<!-- Bottom Selection Clouds -->
+    	<div id="botselect">
+    	<div class="botoption"> <!-- Cloud 1 Not selected -->
+    		<img src="materials/select_opt.png" style="margin-right:5px;margin-left:10px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 2 Selected-->
+    		<img src="materials/no_select_opt.png" style="margin-right:15px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 3 Not selected-->
+    		<img src="materials/no_select_opt.png"/>
+    	</div>
+    	</div>
+    	<div id="botselect" style="top:345px;line-height:3px;"> <!-- Bottom Selection Text -->
+    		<div class="botselecttext" style="opacity:1;"><p><b>状态信息</b></p></div>
+    		<div class="botselecttext" style="cursor:pointer" onClick="hide('systemcheck'); reveal('vehiclestatus'); addToHistory('vehiclestatus');"><p>车况信息</p></div>
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('systemcheck'); reveal('maintenance'); addToHistory('maintenance');"><p>保养建议</p></div>
+    	</div>
+    </div> <!-- End Systems Check Tab -->
+    
+    <!-- Dealer Help Screen -->
+    <div id="dealerscreen" class="mainscreen">
+    	<div id="helptext"> <!-- Help Text -->
+    		<div>
+    			<p style="font-size:22px;"><b>您可以说:</b></p>
+    		</div>
+    		<div id="helplist">
+    			<p>呼叫</p>
+    			<p>预约</p>
+    			<p>查看地图</p>
+    		</div>
+    	</div>
+    	<div class="uppermain" id="sgmdealer">
+    		<div class="toptab1">
+    			<p style="position:absolute;font-size:24px;"><b>SGM的经销商</b></p>
+    		</div>
+    		
+    		<div class="dealerlist">
+    		<div id="deal1" class="systemtitle" style="display:none;" onClick="hide('deal1'); reveal('dealer1');">
+    			<img src="materials/item_bg.png" />
+    			<p class="titletext" style="left:22px;"><b>1. 卡迪拉克-永达</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:16px;right:20px;" />
+    			<p class="distancevalue">5.5公里</p>
+    		</div>
+    		
+    		<div id="dealer1" class="systemdescription" style="display:block;">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('dealer1'); reveal('deal1');">
+    				<p class="titletext" style="left:22px;"><b>1. 卡迪拉克-永达</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:16px;right:20px;" />
+    				<p class="distancevalue">5.5公里</p>
+    			</div>
+    			<div class="dealerdetails">
+    				<p>地址:</p>
+    				<p>陈经理:</p>
+    				<p>李经理:</p>
+    			<div class="dealerdetailvalues">
+    				<p>2277号, 龙东大道, 上海</p>
+    				<p>138-1658-7760</p>
+    				<p>138-1692-6688</p>
+    			</div>
+    			</div>
+    			<!-- Call Buttons -->
+    			<div style="position:absolute;left:23px;bottom:15px;cursor:pointer;" onClick="hide('dealerscreen'); reveal('callscreen'); addToHistory('callscreen'); palyAudio('audio/busy_tone_may_3.wav')">
+    				<img src="materials/button1.png" style="width:157px;height:71px;"/>
+    				<img src="materials/dianhua1.png" style="position:absolute;left:17px;top:20px;"/>
+    				<div style="position:absolute;left:70px;top:13px;">
+    					<p style="font-size:20px;">呼叫</p>
+    				</div>
+    			</div>
+    			<div style="position:absolute;left:198px;bottom:15px;">
+    				<img src="materials/button1.png" style="width:157px;height:71px;"/>
+    				<img src="materials/yuyue.png" style="position:absolute;left:17px;top:20px;"/>
+    				<div style="position:absolute;left:70px;top:13px;">
+    					<p style="font-size:20px;">预约</p>
+    				</div>
+    			</div>
+    			<div style="position:absolute;left:373px;bottom:15px;cursor:pointer;" onClick="goToNav();">
+    				<img src="materials/button1.png" style="width:157px;height:71px;"/>
+    				<img src="materials/map1.png" style="position:absolute;left:17px;top:20px;"/>
+    				<div style="position:absolute;left:55px;top:13px;">
+    					<p style="font-size:20px;">查看地图</p>
+    				</div>
+    			</div>
+    			<!-- Call Buttons End -->    	
+    		</div>
+    		
+    		<div id="deal2" class="systemtitle" onClick="hide('deal2'); reveal('dealer2');">
+    			<img src="materials/item_bg.png" />
+    			<p class="titletext" style="left:22px;"><b>2. 卡迪拉克-东昌</b></p>
+    			<img src="materials/item_down.png" style="position:absolute;top:16px;right:20px;" />
+    			<p class="distancevalue">3.6公里</p>
+    		</div>
+    		
+    		<div id="dealer2" class="systemdescription">
+    			<img src="materials/hide_div.png"/>
+    			<div class="clickregion" onClick="hide('dealer2'); reveal('deal2');">
+    				<p class="titletext" style="left:22px;"><b>2. 卡迪拉克-东昌</b></p>
+    				<img src="materials/item_up.png" style="position:absolute;top:16px;right:20px;" />
+    				<p class="distancevalue">3.6公里</p>
+    			</div>
+    			<div class="dealerdetails">
+    				<p>Address:</p>
+    				<p>Mr. Chen:</p>
+    				<p>Mr. Li:</p>
+    			<div class="dealerdetailvalues">
+    				<p>No. 2277, Longdong Avenue, Shanghai</p>
+    				<p>138-1658-7760</p>
+    				<p>138-1692-6688</p>
+    			</div>
+    			</div>
+    			<!-- Call Buttons -->
+    			<div style="position:absolute;left:23px;bottom:15px;cursor:pointer;" onClick="hide('dealerscreen'); reveal('callscreen'); addToHistory('callscreen');">
+    				<img src="materials/call.png"/>
+    			</div>
+    			<div style="position:absolute;left:198px;bottom:15px;">
+    				<img src="materials/call_out.png"/>
+    			</div>
+    			<div style="position:absolute;left:373px;bottom:15px;">
+    				<img src="materials/map.png"/>
+    			</div>
+    			<!-- Call Buttons End -->    	
+    		</div>
+    		
+  			<!-- Insert Additional Dealers Here... -->
+    		
+    		</div>
+    	</div>
+    	
+    	<div class="uppermain" id="localdealer">
+    		
+    	</div>
+    
+    	<div id="botline" style="top:320px;">
+    		<img src="materials/lines.png" style="width:597px;height:5px;"/>
+    	</div>
+    	<!-- Bottom Selection Clouds -->
+    	<div id="botselect" style="top:350px;">
+    	<div class="botoption"> <!-- Cloud 1 Not selected -->
+    		<img src="materials/no_select_opt.png" style="margin-right:15px;margin-left:10px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 2 Selected-->
+    		<img src="materials/no_select_opt.png" style="margin-right:15px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 3 Not selected-->
+    		<img src="materials/no_select_opt.png"/>
+    	</div>
+    	</div>
+    	<div id="botselect" style="top:345px;line-height:3px;"> <!-- Bottom Selection Text -->
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('dealerscreen'); reveal('systemcheck'); addToHistory('systemcheck');"><p>状态信息</p></div>
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('dealerscreen'); reveal('vehiclestatus'); addToHistory('vehiclestatus');"><p>车况信息</p></div>
+    		<div class="botselecttext" style="cursor:pointer;" onClick="hide('dealerscreen'); reveal('maintenance'); addToHistory('maintenance');"><p>保养建议</p></div>
+    	</div>
+    </div>
+    
+    <!-- Dealer Calling Screen -->
+    <div id="callscreen" class="mainscreen">
+    	<div id="helptext"> <!-- Help Text -->
+    		<div>
+    			<p style="font-size:22px;"><b>您可以说:</b></p>
+    		</div>
+    		<div id="helplist">
+    			<p>结束通话</p>
+    			<p>最近通话</p>
+    			<p>拨号</p>
+    		</div>
+    	</div>
+    	<div style="position:absolute;top:0;left:0;width:100%">
+    	<div style="position:relative;width:100%;height:20px;top:45px;">
+    		<p style="font-family:'Myriad Pro';font-size:30px;color:#58a7ff;text-align:center;">
+    			正在呼叫...
+    		</p>
+    	</div>
+    	<div style="position:relative;width:100%;height:45px;top:32px;">
+    		<p style="font-family:'Myriad Pro';font-size:45px;text-align:center;">
+    			陈经理
+    		</p>
+    	</div>
+    	<div style="position:absolute;top:200px;left:215px;width:auto;text-align:center;cursor:pointer;" onClick="backOne();palyAudio('audio/ask_navigation_apr_5.mp3');startTTS('是否导航到安吉星4S店');">
+    		<img src="materials/button1.png"/>
+    		<img src="materials/dianhua2.png" style="position:absolute;left:20px;top:25px;"/>
+    		<div style="position:absolute;left:72px;top:15px;">
+    			<p style="font-size:20px;">结束通话</p>
+    		</div>
+    	</div>
+    	<div id="altend" style="position:absolute;top:200px;left:215px;width:177px;height:71px;display:none;cursor:pointer;" onClick="backOne();hide('altend');">
+    	
+    	</div>
+    	</div>
+    	<div id="botline">
+    		<img src="materials/item_left.png"/>
+    	</div>
+    	<!-- Bottom Selection Clouds -->
+    	<div id="botselect">
+    	<div class="botoption"> <!-- Cloud 1 Not selected -->
+    		<img src="materials/select_opt.png" style="margin-right:5px;margin-left:10px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 2 Selected-->
+    		<img src="materials/no_select_opt.png" style="margin-right:15px;"/>
+    	</div>
+    	<div class="botoption"> <!-- Cloud 3 Not selected-->
+    		<img src="materials/no_select_opt.png"/>
+    	</div>
+    	</div>
+    	<div id="botselect" style="top:345px;line-height:3px;"> <!-- Bottom Selection Text -->
+    		<div class="botselecttext" style="opacity:1;margin-left:35px;margin-right:35px;"><p><b>通信录</b></p></div>
+    		<div class="botselecttext" style="cursor:pointer;margin-right:45px;"><p>最近通话</p></div>
+    		<div class="botselecttext" style="cursor:pointer;"><p>拨号</p></div>
+    	</div>
+    </div> <!-- End Dealer Calling Screen -->
+    
+    <!-- Navigation Screen -->
+    <div id="navscreen" class="mainscreen" style="left:170px;">
+    	<img src="materials/all_navigation.png"/>
+    </div>
+    
+    </div>
+    <div id="log_div"
+		class="log_div"></div>
+	<div class="log_btn">
+		<button id="btn_log" onclick="logControl()">Show Log</button>
+		<button id="cls_log">clear log</button>
+		<button id="showVechileData">showVechileData</button>
+	</div>
+    
+    </body>
+    
+    <div style="position:absolute;display:block;top:0px;left:0px;height:480px;width:800px;background:#000000;z-index:-10;"></div>
+    <p style="cursor:pointer;position:absolute;top:510px;color:#000000;" onClick="showAlert('alert1');palyAudio('audio/system_warning_apr_5.mp3');startTTS('发动机系统异常，建议采取行动');">alert1</p>
+   <!--  <p style="cursor:pointer;position:absolute;top:530px;color:#000000;" onClick="showAlert('alert2');">alert2</p>-->
+    <p style="cursor:pointer;color:#000000;position:absolute;top:490px;" onClick="hide(pageHistory[currentPage]); reveal('homepage'); addToHistory('homepage');">Home</p>
+    
+    <div class="alertbox" id="alert1"> <!-- Alert Message -->
+    	<img src="materials/pop_bg.png"/>
+    	<img src="materials/pop_line.png" style="position:absolute;left:20px;top:65px;"/>
+    	<!-- Alert Info -->
+    		<div style="position:absolute;top:15px;left:140px;display:inline-block;text-align:center;"> <!-- Alert Title -->
+    			<img src="materials/exception.png"/>
+    		</div>
+    		<div style="position:absolute;top:8px;left:185px;">
+    			<p style="font-size:26px;line-height:0px;">发动机异常</p>
+    		</div>
+    		<div style="position:absolute;top:60px;left:40px;"> <!-- Alert Description -->
+    			<p style="font-size:20px;">建议及时进行排查</p>
+    		</div>
+    		
+    		
+    		<div style="position:absolute;bottom:10px;"> <!-- Alert Buttons -->
+    			<div style="position:absolute;left:23px;bottom:0px;cursor:pointer;" onClick="hideAlert('alert1');reveal('carebtnalt');hide(pageHistory[currentPage]);reveal('systemcheck');addToHistory('systemcheck');hidePrev('ydes1');hide('title1');hide('ytitle1');palyAudio('audio/eng_detail_msg_apr_2_2013.mp3');startTTS('您的爱车可能存在异常，建议采取行动必将诊断结果发送到4S店，建议联系4S店进一步检查');">
+    				<img src="materials/button1.png" style="width:130px;height:71px;"/>
+    				<div style="position:absolute;left:25px;top:5px;">
+    					<p style="font-size:20px;">马上处理</p>
+    				</div>
+    			</div>
+    			<div style="position:absolute;left:180px;bottom:0px;cursor:pointer;" onClick="hideAlert('alert1');reveal('carebtnalt');hidePrev('ydes1');hide('title1');hide('ytitle1');">
+    				<img src="materials/button1.png" style="width:130px;height:71px;"/>
+    				<div style="position:absolute;left:25px;top:5px;">
+    					<p style="font-size:20px;">稍后处理</p>
+    				</div>
+    			</div>
+    			<div style="position:absolute;left:340px;bottom:0px;cursor:pointer;" onClick="hideAlert('alert1');hidePrev('ydes1');hide('title1');hide('ytitle1');">
+    				<img src="materials/button1.png" style="width:130px;height:71px;"/>
+    				<div style="position:absolute;left:25px;top:5px;">
+    					<p style="font-size:20px;">不再提醒</p>
+    				</div>
+    			</div>
+    		</div>
+    </div>
+    <!-- 
+    <div class="alertbox" id="alert2"> <!-- Alert Message -->
+    	<!--  <img src="materials/pop_bg.png"/>
+    	<img src="materials/pop_line.png" style="position:absolute;left:20px;top:65px;"/>
+    	<!-- Alert Info -->
+    		<!-- <div style="position:absolute;top:15px;left:140px;display:inline-block;text-align:center;"> <!-- Alert Title --> <!--  
+    			<img src="materials/error.png" style="height:33px;width:31px;"/>
+    		</div>
+    		<div style="position:absolute;top:8px;left:185px;">
+    			<p style="font-size:26px;line-height:0px;">发动机故障</p>
+    		</div>
+    		<div style="position:absolute;top:60px;left:40px;"> <!-- Alert Description --> <!-- 
+    			<p style="font-size:20px;">建议靠边停车，并打开双跳灯</p>
+    		</div>
+    		
+    		
+    		<div style="position:absolute;bottom:10px;"> <!-- Alert Buttons --> <!-- 
+    			<div style="position:absolute;left:50px;bottom:0px;cursor:pointer;" onClick="hideAlert('alert2');reveal('carebtnalt');hide(pageHistory[currentPage]);reveal('systemcheck');addToHistory('systemcheck');hide('title1');reveal('gdes1');">
+    				<img src="materials/button1.png" style="width:130px;height:71px;"/>
+    				<div style="position:absolute;left:25px;top:5px;">
+    					<p style="font-size:20px;">马上处理</p>
+    				</div>
+    			</div>
+    			<div style="position:absolute;left:320px;bottom:0px;cursor:pointer;" onClick="hideAlert('alert2');reveal('carebtnalt');">
+    				<img src="materials/button1.png" style="width:130px;height:71px;"/>
+    				<div style="position:absolute;left:25px;top:5px;">
+    					<p style="font-size:20px;">稍后处理</p>
+    				</div>
+    			</div>
+    		</div>
+    </div> -->
+    
+</html>
