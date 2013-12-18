@@ -97,22 +97,22 @@ function hidePrev(id) {
 }
 
 function enterVehicleStatus() {
-	var str="audio/doing_diag_apr_9.mp3";
-	palyAudio(str);
+//	var str="audio/doing_diag_apr_9.mp3";
+//	palyAudio(str);
 	console.log('Before TTS');
 	startTTS('正在诊断车辆，请稍等');
 	console.log('TTS Passed');
 	setTimeout(function() {
 		if (document.getElementById('carebtnalt').style.display == 'none') {
-			str="audio/diag_overview_good_apr_9.mp3";
-			palyAudio(str);
+//			str="audio/diag_overview_good_apr_9.mp3";
+//			palyAudio(str);
 			startTTS('检测完毕，你的车辆系统正常');
 			hide(pageHistory[currentPage]);
 			displayVechileStatusData();
 			reveal('vehiclestatus');
 			addToHistory('vehiclestatus');
 		} else {
-			palyAudio('audio/diag_overview_apr_5.mp3');
+//			palyAudio('audio/diag_overview_apr_5.mp3');
 			startTTS('发动机系统异常，剩余机油寿命百分之3.9，建议您联系4S店做进一步检查');
 			hide(pageHistory[currentPage]);
 			reveal('systemcheck');
@@ -129,7 +129,7 @@ function callButtonPress() {
 	addToHistory('dealerscreen');
 	stopAudio();
 	startTTS('呼叫陈经理，您也可以选择其他联系人');
-	palyAudio('audio/call_or_select_apr_5.mp3');
+//	palyAudio('audio/call_or_select_apr_5.mp3');
 	setTimeout(function() {
 		if (pageHistory[currentPage] == 'dealerscreen') {
 			hide('dealerscreen');
@@ -141,7 +141,7 @@ function callButtonPress() {
 }
 
 function goToNav() {
-	palyAudio("audio/navigation_to_apr_5.mp3");
+//	palyAudio("audio/navigation_to_apr_5.mp3");
 	startTTS('开始导航');
 	setTimeout(function() {
 		hide(pageHistory[currentPage]);

@@ -8,7 +8,7 @@ var appRootUrl = href.substr(0, href.lastIndexOf("/"));
 var flag = 0;
 var pop=0;
 
-var asr = 1; //0 for iFlyTek, 1 for 云知声
+var asr = 0; //0 for iFlyTek, 1 for 云知声
 
 
 /*function init() {
@@ -55,10 +55,11 @@ function initSpeech() {
 	console.log(pageHistory[currentPage]);
 	if (typeof (recordingHandle) != "undefined") {
 		runspeeh();
-		console.log("undefined");
+		console.log("runspeeh undefined");
 	} else {
-		var str = "audio/onstar_ready_apr_5.mp3";
-		palyAudio(str);
+//		var str = "audio/onstar_ready_apr_5.mp3";
+		console.log("安吉星就绪.");
+//		palyAudio(str);
 		startTTS('安吉星就绪');
 		setTimeout("speech()", 2000);
 		console.log("init speech completed");
@@ -70,20 +71,20 @@ function listening() {
 }
 
 var speech = function() { 
-	if (asr == 0) { //iFlyTek
-		if (typeof (recordingHandle) != "undefined") {
-			startRecording();
-			logger.appendLine("recordingHandle=").append(recordingHandle);
-			console.log("recordingHandle:    "+recordingHandle);
-			//console.log(123456);
-		} else {
-			startSpeechSession();
-			startRecording();
-			//console.log(789);
-		}
-		KeywdInit();
-	}
-	else { //云知声
+//	if (asr == 0) { //iFlyTek
+//		if (typeof (recordingHandle) != "undefined") {
+//			startRecording();
+//			logger.appendLine("recordingHandle=").append(recordingHandle);
+//			console.log("recordingHandle:    "+recordingHandle);
+////			console.log(123456);
+//		} else {
+//			startSpeechSession();
+//			startRecording();
+////			console.log(789);
+//		}
+//		KeywdInit();
+//	}
+//	else { //云知声
 		if (typeof (recordingHandle) != "undefined") {
 			logger.appendLine("start recordingHandle=").append(recordingHandle);
 			startRecording1();
@@ -94,7 +95,7 @@ var speech = function() {
 			startRecording1();
 		}
 		KeywdInit();
-	}
+//	}
 };
 
 //var speech = function() { //云知声 
@@ -139,11 +140,11 @@ function startRecording() {
 	}, function(str) {
 		console.log(str);
 	}, {
-		intro : 0,
-		silenceDetection : true,
-		silenceLength : 500,
-		maxRecordingWindow : 3000,
-		noiseSuppression : "Low"
+	      intro : 0,
+	      silenceDetection : true,
+	      silenceLength : 1000,
+	      maxRecordingWindow : 5000,
+	      noiseSuppression : 'Standard'
 	});
 };
 
@@ -155,6 +156,7 @@ var fnCallback = function(objBinaryFile) {
 
 	var filecontents;
 	if (objBinaryFile) {
+		console.log("objBinaryFile", objBinaryFile);
 		filecontents = objBinaryFile.Content;
 		console.log("filecontents: " + objBinaryFile.ContentLength);
 		var contentLength = 0;
@@ -594,7 +596,7 @@ var startTest = function(args) {
 };
 
 var iflyParesString = function(args) {
-	console.log(args);
+	console.log("识别结果： "+ args);
 	var result = args;
 	var reg = /(.*)。?/g;
 	var r_result = result.match(reg);

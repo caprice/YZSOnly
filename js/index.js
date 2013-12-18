@@ -7,49 +7,49 @@ function pauseFirst(pop) {
 	setTimeout("diagnosis(0,"+pop+")", 5000);
 }
 var playAudioHandle;
-var currentAudio = null;
+var currentAudio;
 
 function playMP3(url){
 	 stopAudio();
-	 var audio = document.createElement('audio');  
-	 audio.setAttribute('src',url);
-	 currentAudio = audio;
-	 try{
-		 audio.play();
+	 console.log("playing url", url);
+	 currentAudio = document.createElement("audio");
+	 if (currentAudio != null && currentAudio.canPlayType && currentAudio.canPlayType("audio/mpeg"))
+	 {
+		 currentAudio.src = url;
+		 currentAudio.play();
 	 }
-	 catch(e){
-		 setProcessindictText('debug',e); 
-	 }
-	
-	
 }
 
 function stopAudio() {
-	if (currentAudio != null) {
-		currentAudio.pause();
-		currentAudio.currentTime = 0;
+	try {
+		if (currentAudio != null) {
+			console.log("stopAudio", currentAudio);
+			currentAudio.currentTime = 0;
+			currentAudio.pause();
+		}
+	} catch (error) {
+		console.log("error occurs when try to stop audio: " + error);
 	}
-	currentAudio = null;
+
 }
 
 function palyAudio(audioFile) {
 	// TODO Change audio file name
-//	 console.log(playAudioHandle);
-//	 if (typeof (recordingHandle) != "undefined") {
+//	 console.log("playAudioHandle", playAudioHandle);
+//	 if (typeof (playAudioHandle) != "undefined") {
 //		 gm.media.stop(playAudioHandle);
 //	 }
-//playAudioHandle = gm.media.play(audioFile, 'exclusiveAudio',
-//    function(statusCode) {
-//        //console.log('Status Code: ' + statusCode);
+//	 playAudioHandle = gm.media.play(audioFile, '',
+//			 function(statusCode) {
+//        console.log('Status Code: ' + statusCode);
 //    }
 //);
-	// $('embed').remove(); 
+	 playMP3(audioFile);
+	console.log("palyAudio(file)");
 	if ((audioFile == 'audio/busy_tone_may_3.wav') || (mp3 == 1)) {
 		 stopAudio();
-		 var audio = document.createElement('audio');  
-		 audio.setAttribute('src', audioFile);
-		 currentAudio = audio;
-		 audio.play();
+		 currentAudio = new Audio(audioFile);
+		 currentAudio.play();
 	    // $('body').append('<audio src="'+audioFile+'" autostart="true" hidden="true" loop="false">');
 	     console.log(audioFile);
 	}

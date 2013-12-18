@@ -14,7 +14,7 @@ var dataType = 'audio/x-wav;codec=pcm;bit=16;rate=16000';
 var deviceId = '57349abd2390';
 var startTime = 0;
 var endTime = 0;
-var ttsChoice = 1; //0 for iFlyTek, 1 for yunzhisheng, anything else for mp3
+var ttsChoice = 0; //0 for iFlyTek, 1 for yunzhisheng, anything else for mp3
 var commandRecognizeLoadingDialog;
 
 function init() {
@@ -37,7 +37,7 @@ var SR_ParesString = function(args) {
 	var finalResult = args.replace(/<\/s>/g,",");
 	finalResult = finalResult.replace(/<s>/g,"");
 	console.log(finalResult);
-	//startTTS(finalResult);
+//	startTTS(finalResult);
 	startTest(finalResult.substr(0, finalResult.length - 1));
 	console.log("cut: " + finalResult.substr(0, finalResult.length - 1));
 };
@@ -45,7 +45,7 @@ var SR_ParesString = function(args) {
 function fnCallback1  (objBinaryFile) {
   if (objBinaryFile) {
     var data = str2ab(objBinaryFile['Content']);
-    console.log('data:' + (typeof data));
+    console.log('upload data:' + (typeof data));
     var audioLength = objBinaryFile['ContentLength'];
     var method = 'POST';
     var url = sprintf('%s?appkey=%s&userid=%s&id=%s', asrUrl , asrAppId, asrUserId, deviceId);
@@ -78,6 +78,16 @@ function uploadFile() {
   GetBinaryFile(file, fnCallback1, debugDiv);
 }
 
+function uploadFile1() {
+	  commandRecognizeLoadingDialog = gm.ngi.msgbox.showLoad("语音指令识别中...");
+	  var href = window.location.href;
+	  var appRootUrl = href.substr(0, href.lastIndexOf("index"));
+	  var file = appRootUrl +  filePath;
+	  console.log("uploadFile1");
+		hide('mic_listen');
+	  GetBinaryFile(file, fnCallback, debugDiv);
+	}
+
 function startSpeechSession1() {
   speechRecSessionID = gm.voice.startSpeechRecSession(
     function() {
@@ -98,13 +108,19 @@ function startRecording1() {
   gm.voice.startRecording(
     function(responseObj) {
       playSuccessSound();
+      logger.appendLine('start to record... ');
       var index = responseObj.indexOf('data');
       if (index >= 0) {
         filePath = responseObj.substring(index);
       } else {
         filePath = 'data/' + responseObj;
       }
-      setTimeout(uploadFile, 200);
+      console.log("record filePath: "+ filePath);
+      if(ttsChoice == 0){
+    	  setTimeout(uploadFile1, 200);
+      }else if(ttsChoice ==1){
+    	  setTimeout(uploadFile, 200);
+      }
       console.log('Success: startRecording1.');
     },
     function() {
@@ -184,6 +200,7 @@ var startHttpTTS1 = function(text){ //云知声
 };
 
 var startTTS2 = function(args) { //iflytek
+	console.log("startTTS2", "you came into this logic!");
 	  //input1.innerHTML = '';
 	  //var text = args;
 	  var str = args;// + new Date().getTime();
@@ -198,16 +215,19 @@ var startTTS2 = function(args) { //iflytek
 	  IflyClient.onload = function(e) {
 	    if (this.status == 200) {
 	      var responseText = IflyClient['responseText'];
+		  logger.appendLine("responseText from Iflyserver: "+responseText);
 	      var response = eval("(" + responseText + ")");
 	      var playUrl = response['responseUrl'];
-	      var audioContainer = document.getElementById('audio_container2');
-	      var audio = document.createElement('audio');
-	      audio.autoplay = true;
-	      var source = document.createElement('source');
-	      source.type = 'audio/mpeg';
-	      source.src = playUrl;
-	      audio.appendChild(source);
-	      audioContainer.appendChild(audio);
+//	      var audioContainer = document.getElementById('audio_container2');
+//	      var audio = document.createElement('audio');
+//	      audio.autoplay = true;
+//	      var source = document.createElement('source');
+//	      audio.appendChild(source);
+//	      source.type = 'audio/mpeg';
+//	      source.src = playUrl;
+//	      console.log("Audio", audio);
+//	      audioContainer.appendChild(audio);
+	      palyAudio(playUrl);
 	      return false;
 	    } else {
 	      console.log("response failed");
