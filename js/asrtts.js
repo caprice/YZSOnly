@@ -117,7 +117,7 @@ function startRecording1() {
       }
       console.log("record filePath: "+ filePath);
       if(ttsChoice == 0){
-    	  setTimeout(uploadFile1, 200);
+    	  setTimeout(uploadFile, 200);
       }else if(ttsChoice ==1){
     	  setTimeout(uploadFile, 200);
       }
